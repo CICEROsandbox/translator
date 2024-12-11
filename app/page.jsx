@@ -1,9 +1,14 @@
 "use client";
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export default function Home() {
   const [inputText, setText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
+
+  // Optimize the change handler with useCallback
+  const handleChange = useCallback((e) => {
+    setText(e.target.value);
+  }, []);
 
   const handleTranslate = async () => {
     try {
@@ -26,9 +31,14 @@ export default function Home() {
         <div>
           <textarea
             value={inputText}
-            onChange={(e) => setText(e.target.value)}
+            onChange={handleChange}
             placeholder="Enter Norwegian text..."
             className="w-full p-2 border rounded min-h-[100px]"
+            style={{ 
+              resize: 'vertical',
+              minHeight: '100px',
+              lineHeight: '1.5'
+            }}
           />
         </div>
         <button
